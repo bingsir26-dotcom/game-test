@@ -7,7 +7,7 @@
 #   2. 啟用必要 API：
 #      gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com
 #   3. 建立 Artifact Registry 倉庫（首次）：
-#      gcloud artifacts repositories create 2048-repo \
+#      gcloud artifacts repositories create game-2048-repo \
 #        --repository-format=docker \
 #        --location=asia-east1
 #   4. 執行部署：
@@ -54,9 +54,7 @@ images:
 # 替換變數（可在執行時覆蓋）
 substitutions:
   _REGION: asia-east1
-  _REPO_NAME: 2048-repo
-  _SERVICE_NAME: 2048-game
+  _REPO_NAME: game-2048-repo
+  _SERVICE_NAME: game-2048
   _TAG: latest
 
-# 日誌儲存
-logsBucket: 'gs://${PROJECT_ID}-cloudbuild-logs'
