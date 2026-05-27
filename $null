@@ -1,3 +1,12 @@
-Updates are available for some Google Cloud CLI components.  To install them,
-please run:
-  $ gcloud components update
+ERROR: (gcloud.config.get-value) unrecognized arguments:
+  ;
+  if
+  ($LASTEXITCODE
+  -ne
+  0)
+  {
+  Write-Host
+  NO_PROJECT
+  }
+  To search the help text of gcloud commands, run:
+  gcloud help -- SEARCH_TERMS
