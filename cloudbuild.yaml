@@ -1,0 +1,62 @@
+# ============================================
+# 2048 Game - Cloud Build CI/CD 設定
+# ============================================
+# 使用方式：
+#   1. 先設定專案 ID：
+#      gcloud config set project YOUR_PROJECT_ID
+#   2. 啟用必要 API：
+#      gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com
+#   3. 建立 Artifact Registry 倉庫（首次）：
+#      gcloud artifacts repositories create 2048-repo \
+#        --repository-format=docker \
+#        --location=asia-east1
+#   4. 執行部署：
+#      ./deploy.sh
+# ============================================
+
+steps:
+  # 步驟 1：建置 Docker 映像
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/2048-game:${_TAG}'
+      - '.'
+
+  # 步驟 2：推送映像到 Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/2048-game:${_TAG}'
+
+  # 步驟 3：部署到 Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE_NAME}'
+      - '--image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/2048-game:${_TAG}'
+      - '--region=${_REGION}'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--memory=128Mi'
+      - '--cpu=1'
+      - '--min-instances=0'
+      - '--max-instances=2'
+      - '--concurrency=80'
+      - '--timeout=300'
+
+# 映像儲存在 Artifact Registry
+images:
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/2048-game:${_TAG}'
+
+# 替換變數（可在執行時覆蓋）
+substitutions:
+  _REGION: asia-east1
+  _REPO_NAME: 2048-repo
+  _SERVICE_NAME: 2048-game
+  _TAG: latest
+
+# 日誌儲存
+logsBucket: 'gs://${PROJECT_ID}-cloudbuild-logs'

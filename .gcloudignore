@@ -1,0 +1,34 @@
+# ============================================
+# .gcloudignore
+# 排除不需要上傳到 GCS 的檔案
+# ============================================
+
+# Git
+.git
+.gitignore
+
+# 文件
+*.md
+README*
+
+# 計畫與設計文件
+plans/
+
+# IDE 設定
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS 檔案
+.DS_Store
+Thumbs.db
+
+# 2048 原始碼中的開發檔案
+2048-game/.git
+2048-game/.jshintrc
+2048-game/Rakefile
+2048-game/CONTRIBUTING.md
+2048-game/README.md
+2048-game/LICENSE.txt
+2048-game/.gitignore
