@@ -17,7 +17,22 @@
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
 
   <style>
-    /* ===== 排行榜 Modal 樣式 ===== */
+    /* ===== Above-game 區域改用 flexbox 排版 ===== */
+    .above-game {
+      display: flex !important;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .above-game .game-intro {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .above-game .restart-button {
+      float: none !important;
+    }
+
+    /* ===== 排行榜按鈕樣式 ===== */
     .leaderboard-button {
       display: inline-block;
       background: #8f7a66;
@@ -33,9 +48,35 @@
       margin-left: 8px;
       vertical-align: top;
       transition: background 0.15s ease;
+      float: none !important;
     }
     .leaderboard-button:hover {
       background: #9f8b77;
+    }
+
+    /* 手機版排行榜按鈕 */
+    @media screen and (max-width: 520px) {
+      .above-game {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+      }
+      .above-game .game-intro {
+        width: 100% !important;
+        text-align: center;
+      }
+      .above-game .restart-button,
+      .above-game .leaderboard-button {
+        width: 48%;
+        box-sizing: border-box;
+        text-align: center;
+        margin-left: 0;
+      }
+      .above-game .button-group {
+        display: flex;
+        gap: 4%;
+        justify-content: center;
+      }
     }
 
     .leaderboard-overlay,
@@ -53,7 +94,7 @@
     }
     .leaderboard-overlay.active,
     .submit-overlay.active {
-      display: flex;
+      display: flex !important;
     }
 
     .leaderboard-modal,
@@ -174,6 +215,12 @@
     .submit-input:focus {
       border-color: #edc22e;
     }
+    /* 提交分數 modal 中的分數顯示 */
+    #submit-score-display {
+      color: #edc22e;
+      font-size: 20px;
+    }
+
     .submit-actions {
       display: flex;
       gap: 10px;
@@ -204,6 +251,12 @@
       font-size: 13px;
       color: #e74c3c;
       min-height: 20px;
+    }
+
+    /* 提交分數 modal 中的分數顯示 */
+    #submit-score-display {
+      color: #edc22e;
+      font-size: 20px;
     }
   </style>
 </head>

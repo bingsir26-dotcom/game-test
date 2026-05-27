@@ -155,6 +155,11 @@ HTMLActuator.prototype.message = function (won) {
 
 HTMLActuator.prototype._showSubmitScore = function () {
   var self = this;
+  // 更新分數顯示
+  var scoreDisplay = document.getElementById("submit-score-display");
+  if (scoreDisplay) {
+    scoreDisplay.textContent = this.score.toLocaleString();
+  }
   // 延遲一下讓 Game Over 動畫先跑完
   setTimeout(function () {
     self.submitOverlay.classList.add("active");
@@ -279,6 +284,7 @@ HTMLActuator.prototype._fetchLeaderboard = function () {
 };
 
 HTMLActuator.prototype._renderLeaderboard = function (leaderboard) {
+  var self = this;
   var html = "";
 
   if (!leaderboard || leaderboard.length === 0) {
